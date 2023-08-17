@@ -11,20 +11,22 @@ public class BundleManager {
 
     public static final String BUNDLE = "strings";
 
-    private @Nls String sameName(@PropertyKey(resourceBundle = "strings") String key) {
+
+    private @Nls String sameName(@PropertyKey(resourceBundle = BUNDLE) String key) {
         return ResourceBundle.getBundle(key, Locale.ENGLISH).getString(key);
     }
 
-    private @Nls String sameName(@PropertyKey(resourceBundle = "strings") String key, Object... args) {
+    private @Nls String sameName(@PropertyKey(resourceBundle = BUNDLE) String key, Object... args) {
         return MessageFormat.format(sameName(key), args);
     }
 
-    private @Nls String differentName(@PropertyKey(resourceBundle = "strings") String key) {
+
+    private @Nls String differentName(@PropertyKey(resourceBundle = BUNDLE) String key) {
         return ResourceBundle.getBundle(key, Locale.ENGLISH).getString(key);
     }
 
-    private @Nls String differentNameArgs(@PropertyKey(resourceBundle = "strings") String key, Object... args) {
-        return MessageFormat.format(sameName(key), args);
+    private @Nls String differentNameArgs(@PropertyKey(resourceBundle = BUNDLE) String key, Object... args) {
+        return MessageFormat.format(differentName(key), args);
     }
 
     public void testMethodsWithSameName() {
@@ -34,7 +36,7 @@ public class BundleManager {
         value = sameName("first.key", "VALUE");
 
 
-        //OK
+        // OK
         value = sameName("key.with.parameter", "VALUE");
         // Missing "Property 'key.with.parameter' expected 1 parameter, passed 0"
         value = sameName("key.with.parameter");
@@ -59,9 +61,9 @@ public class BundleManager {
         value = differentNameArgs("first.key", "VALUE");
 
 
-        //OK
+        // OK
         value = differentNameArgs("key.with.parameter", "VALUE");
-        // Missing "Property 'key.with.parameter' expected 1 parameter, passed 0"
+        // OK "Property 'key.with.parameter' expected 1 parameter, passed 0"
         value = differentNameArgs("key.with.parameter");
         // Missing "Argument with index '1' is not used in the pattern"
         value = differentNameArgs("key.with.parameter", "VALUE", "VALUE2");
